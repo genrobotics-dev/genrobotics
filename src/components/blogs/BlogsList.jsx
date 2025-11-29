@@ -2,7 +2,14 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getMoreBlogs } from "@/app/actions";
+import { client } from "../../../prismicio";
+import * as prismic from "@prismicio/client";
+
+// Utility to clean non-breaking spaces from text
+const cleanText = (text) => {
+    if (typeof text !== 'string') return text;
+    return text.replace(/\u00A0/g, ' ');
+};
 
 export default function BlogsList({ initialBlogs, initialTotalPages }) {
     const [blogs, setBlogs] = useState(initialBlogs);
@@ -14,14 +21,34 @@ export default function BlogsList({ initialBlogs, initialTotalPages }) {
         if (loading || page >= totalPages) return;
         setLoading(true);
         const nextPage = page + 1;
-        const data = await getMoreBlogs(nextPage);
 
-        if (data.blogs.length > 0) {
-            setBlogs((prev) => [...prev, ...data.blogs]);
-            setPage(nextPage);
-            setTotalPages(data.totalPages);
+        try {
+            const response = await client.get({
+                predicates: [prismic.predicate.at("document.type", "blogs")],
+                orderings: [{ field: "document.last_publication_date", direction: "desc" }],
+                pageSize: 6,
+                page: nextPage,
+            });
+
+            const newBlogs = response.results.map((b) => ({
+                id: b.id,
+                uid: b.uid,
+                title: cleanText(b.data.title[0]?.text || "Untitled"),
+                summary: cleanText(b.data.summary || ""),
+                image: b.data.image?.url,
+                last_publication_date: b.last_publication_date,
+            }));
+
+            if (newBlogs.length > 0) {
+                setBlogs((prev) => [...prev, ...newBlogs]);
+                setPage(nextPage);
+                setTotalPages(response.total_pages);
+            }
+        } catch (error) {
+            console.error("Error fetching more blogs:", error);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     return (

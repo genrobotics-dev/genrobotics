@@ -2,7 +2,14 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getMoreCaseStudies } from "@/app/actions";
+import { client } from "../../../prismicio";
+import * as prismic from "@prismicio/client";
+
+// Utility to clean non-breaking spaces from text
+const cleanText = (text) => {
+    if (typeof text !== 'string') return text;
+    return text.replace(/\u00A0/g, ' ');
+};
 
 export default function CaseStudyList({ initialCaseStudies, initialTotalPages }) {
     const [caseStudies, setCaseStudies] = useState(initialCaseStudies);
@@ -14,14 +21,33 @@ export default function CaseStudyList({ initialCaseStudies, initialTotalPages })
         if (loading || page >= totalPages) return;
         setLoading(true);
         const nextPage = page + 1;
-        const data = await getMoreCaseStudies(nextPage);
 
-        if (data.caseStudies.length > 0) {
-            setCaseStudies((prev) => [...prev, ...data.caseStudies]);
-            setPage(nextPage);
-            setTotalPages(data.totalPages);
+        try {
+            const response = await client.get({
+                predicates: [prismic.predicate.at("document.type", "case_studies")],
+                orderings: [{ field: "document.last_publication_date", direction: "desc" }],
+                pageSize: 6,
+                page: nextPage,
+            });
+
+            const newCaseStudies = response.results.map((c) => ({
+                id: c.id,
+                uid: c.uid,
+                title: cleanText(c.data.title[0]?.text || "Untitled"),
+                summary: cleanText(c.data.summary || ""),
+                image: c.data.image?.url,
+            }));
+
+            if (newCaseStudies.length > 0) {
+                setCaseStudies((prev) => [...prev, ...newCaseStudies]);
+                setPage(nextPage);
+                setTotalPages(response.total_pages);
+            }
+        } catch (error) {
+            console.error("Error fetching more case studies:", error);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     return (
