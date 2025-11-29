@@ -1,0 +1,10 @@
+# Netlify redirects for www to non-www
+# Redirect www.genrobotics.com to genrobotics.com
+https://www.genrobotics.com/* https://genrobotics.com/:splat 301!
+http://www.genrobotics.com/* https://genrobotics.com/:splat 301!
+
+# Redirect www subdomain to main domain
+www.genrobotics.com/* genrobotics.com/:splat 301!
+
+# Fallback for any www requests
+/www/* /:splat 301!

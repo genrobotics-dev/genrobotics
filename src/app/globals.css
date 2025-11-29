@@ -1,0 +1,338 @@
+@import "tailwindcss";
+
+@theme {
+  --font-anton: var(--font-anton), sans-serif;
+  --font-roboto: var(--font-roboto), sans-serif;
+  --font-quattro: var(--font-quattro), sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+h1 { font-size: clamp(1.75rem, 2vw + 0.8rem, 3rem); }  /* 28–48px */
+h2 { font-size: clamp(1.75rem, 2vw + 0.8rem, 3rem); }  /* 28–48px */
+h3 { font-size: clamp(1.5rem, 1.5vw + 1rem, 1.875rem); }  /* 24–30px */
+h4 { font-size: clamp(1rem, 1vw + 0.5rem, 1.5rem); }  /* 16–24px */
+h5 { font-size: clamp(1rem, 0.8vw + 0.25rem, 1.125rem); }  /* 16–18px */
+h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
+
+
+::-webkit-scrollbar {
+  width: 8px;  
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(252, 217, 1, 0.6);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e6c300;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(252, 217, 1, 0.6) #1f2937;
+}
+
+/* Accessible utility: visually hide content but keep it available to screen readers */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+
+
+@keyframes marqueeLoop {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Hide scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+.marquee-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.marquee-content {
+  display: flex;
+  width: max-content;
+  animation: marqueeLoop 40s linear infinite;
+}
+
+.marquee-content-client {
+  display: flex;
+  width: max-content;
+  animation: marqueeLoop 60s linear infinite; /* default speed */
+}
+
+@media (max-width: 1440px) {
+  .marquee-content-client {
+    animation-duration: 240s; /* faster */
+  }
+}
+/* Medium screens */
+@media (max-width: 1024px) {
+  .marquee-content-client {
+    animation-duration: 300s; /* faster */
+  }
+}
+
+/* Small screens */
+@media (max-width: 640px) {
+  .marquee-content-client {
+    animation-duration: 360s; /* even faster */
+  }
+}
+
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+.container-fluid {
+  @apply mx-auto px-4 w-full max-w-screen-xl;
+}
+
+/* Manual fallback for `margin-trim` (not widely supported yet)
+   - Remove top margin from the first child and bottom margin from the
+     last child inside container elements so adjacent spacing is trimmed
+     in browsers that don't support margin-trim.
+*/
+.container > :first-child,
+.container-fluid > :first-child {
+  margin-top: 0;
+}
+.container > :last-child,
+.container-fluid > :last-child {
+  margin-bottom: 0;
+}
+
+/* When margin-trim becomes available, prefer it. Use feature detection so
+   supported browsers will apply the native behavior while others keep the
+   manual fallback above. */
+@supports (margin-trim: block) {
+  .container,
+  .container-fluid {
+    margin-trim: block;
+  }
+}
+.marquee {
+  width: 100%;
+  overflow: hidden;
+}
+
+.marquee-track {
+  display: flex;          /* row layout */
+  flex-wrap: nowrap;      /* NO wrapping */
+  width: max-content;     /* track is as wide as children */
+  animation: marquee 30s linear infinite;
+  will-change: transform;
+}
+
+.marquee-right {
+  animation-direction: reverse;
+}
+
+.marquee-item {
+  flex: 0 0 auto;         /* don’t shrink, stay inline */
+  margin: 0 0.5rem;       /* same as mx-2 */
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%);}
+}
+
+@keyframes marquee-horizontal {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-vertical {
+  0% { transform: translateY(0%); }
+  100% { transform: translateY(-50%); }
+}
+
+.marquee-horizontal {
+  display: flex;
+  width: max-content;
+  animation: marquee-horizontal 60s linear infinite;
+}
+
+.marquee-vertical {
+  display: flex;
+  flex-direction: column;
+  animation: marquee-vertical 40s linear infinite;
+}
+
+.slick-dots li button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: white; /* inactive dots */
+}
+
+.slick-dots li.slick-active button {
+  background-color: #FCD901; /* active dot */
+}
+
+/* Optional: remove default outline on click */
+.slick-dots li button:before {
+  content: "";
+}
+
+.slick-dots {
+  position: static !important;
+}
+
+
+/* Custom Scrollbar */
+.scrollbar-custom::-webkit-scrollbar {
+  height: 8px; /* horizontal height */
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: #1f2937; /* Tailwind gray-800 */
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: rgba(252, 217, 1, 0.6); /* same color, 60% opacity */
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: #e6c300;
+}
+
+
+.section {
+  padding-left: 1rem;  /* equivalent to px-4 */
+  padding-right: 1rem;
+}
+
+/* Medium screens ≥768px */
+@media (min-width: 768px) {
+  .section {
+    padding-left: 3rem;   /* px-12 */
+    padding-right: 3rem;
+  }
+}
+
+/* Extra-large screens ≥1280px */
+@media (min-width: 1280px) {
+  .section {
+    padding-left: 9rem;   /* px-36 */
+    padding-right: 9rem;
+  }
+}
+
+/* 2xl screens ≥1536px */
+@media (min-width: 1536px) {
+  .section {
+    padding-left: 8rem;  /* px-32 */
+    padding-right: 8rem;
+  }
+}
+
+/* 3xl ≥1920px */
+@media (min-width: 1920px) {
+  .section {
+    padding-left: 16rem;  /* px-60 */
+    padding-right: 16rem;
+  }
+}
+
+/* 4xl ≥2560px */
+@media (min-width: 2560px) {
+  .section {
+    padding-left: 20rem;  /* px-72 */
+    padding-right: 20rem;
+  }
+}
+
+/* 5xl ≥3200px */
+@media (min-width: 3200px) {
+  .section { 
+    padding-left: 24rem;  /* px-96 */
+    padding-right: 24rem;
+  }
+}
+
+/* Backdrop-filter feature detection and fallback
+   - Use a solid semi-opaque background as a baseline for browsers without backdrop-filter.
+   - When backdrop-filter is supported, apply a blur and slightly lighten the overlay color.
+   - Add the class `has-backdrop` to elements (e.g. overlays) that should get this behavior.
+*/
+.has-backdrop {
+  /* baseline fallback for non-supporting browsers */
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+@supports ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
+  .has-backdrop {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    /* make overlay a bit lighter when blur is applied so content remains readable */
+    background-color: rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* Guidance: backdrop-filter should not be necessary for clarity. Keep it decorative only. */
+
+/* Scoped overrides for the CraftingRobotics hero headings
+   These sizes take precedence over the global h1/h2 clamps for this component only.
+*/
+.crafting-hero h1 {
+  /* base (mobile/inline) — let global clamp handle small screens, but provide a clear minimum */
+  font-size: 1.75rem; /* 28px */
+  line-height: 1.05;
+}
+.crafting-hero h2 {
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.1;
+}
+
+@media (min-width: 768px) {
+  .crafting-hero h1 { font-size: 2rem; }    /* md */
+  .crafting-hero h2 { font-size: 1.25rem; }
+}
+
+@media (min-width: 1024px) {
+  .crafting-hero h1 { font-size: 3.5rem; }  /* lg */
+  .crafting-hero h2 { font-size: 2rem; }
+}
+
+@media (min-width: 1536px) {
+  .crafting-hero h1 { font-size: 5rem; }  /* 2xl */
+  .crafting-hero h2 { font-size: 3rem; }
+}
