@@ -115,7 +115,7 @@ export async function generateStaticParams() {
   try {
     const blogs = await client.getAllByType("blogs");
 
-    if (!blogs || blogs.length === 0) {
+    if (!blogs || blogs?.length === 0) {
       console.log("No blogs found, returning empty array");
       return [];
     }
@@ -137,15 +137,20 @@ const cleanText = (text) => {
 
 // Utility to recursively clean Prismic Rich Text fields
 const cleanRichText = (richText) => {
-  if (!Array.isArray(richText)) return richText;
-  return richText.map(node => ({
-    ...node,
-    text: node.text ? cleanText(node.text) : node.text,
-    spans: node.spans ? node.spans.map(span => ({
-      ...span,
-      data: span.data && span.data.url ? { ...span.data, url: span.data.url.trim() } : span.data
-    })) : node.spans
-  }));
+  if (!Array.isArray(richText)) return null;
+  return richText.map(node => {
+    const newNode = { ...node };
+    if (newNode.text) {
+      newNode.text = cleanText(newNode.text);
+    }
+    if (newNode.spans && Array.isArray(newNode.spans)) {
+      newNode.spans = newNode.spans.map(span => ({
+        ...span,
+        data: span.data && span.data.url ? { ...span.data, url: span.data.url.trim() } : span.data
+      }));
+    }
+    return newNode;
+  });
 };
 
 export default async function BlogDetailPage({ params }) {
