@@ -46,7 +46,7 @@ export async function generateMetadata({ params }) {
       };
     }
 
-    const { seo_title, meta_description, primary_keywords, secondary_keywords } = blog.data || {};
+    const { seo_title, meta_description, primary_keywords, secondary_keywords, voice_search_keywords } = blog.data || {};
     const blogTitle = blog.data?.title?.[0]?.text || 'Untitled';
     const blogSummary = blog.data?.summary || '';
 
@@ -63,14 +63,11 @@ export async function generateMetadata({ params }) {
 
     const primary = getKeywords(primary_keywords);
     const secondary = getKeywords(secondary_keywords);
-    let keywords = "";
-    if (primary && secondary) {
-      keywords = `${primary}, ${secondary}`;
-    } else if (primary) {
-      keywords = primary;
-    } else if (secondary) {
-      keywords = secondary;
-    }
+    const voiceSearch = getKeywords(voice_search_keywords);
+
+    const keywords = [primary, secondary, voiceSearch]
+      .filter(Boolean)
+      .join(", ");
 
     return {
       title: seo_title || `${blogTitle} | Genrobotics Blog`,

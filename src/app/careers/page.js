@@ -29,7 +29,7 @@ export async function generateMetadata() {
     return {
       title,
       description,
-      keywords: primaryKeywords && secondaryKeywords 
+      keywords: primaryKeywords && secondaryKeywords
         ? `${primaryKeywords}, ${secondaryKeywords}`
         : "",
       alternates: {

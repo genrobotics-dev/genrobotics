@@ -1,146 +1,232 @@
+"use client";
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const SeoPage = () => {
     return (
-        <section className="seo_page text-black bg-black">
-            <div className="container mx-auto">
-                <h1>Rehabilitation Robotics - Redefining Mobility, Recovery & Human Dignity</h1>
-                <h2>India’s Most Advanced Robotic Rehabilitation System for Stroke & Mobility Recovery</h2>
-                <p>
-                    Genrobotics introduces G-Gaiter, a next-generation rehabilitation robot designed to accelerate
-                    mobility recovery with precision, safety, and AI-assisted therapy. Built for stroke survivors, spinal
-                    cord injury patients, and individuals with mobility impairment, G-Gaiter delivers scientifically
-                    optimized gait training that is impossible to replicate through manual physiotherapy alone.
-                </p>
-                <p>
-                    With advanced biomechanics, AI-driven feedback, and natural gait simulation, G-Gaiter is
-                    redefining how India approaches neuro-rehabilitation and robotic physiotherapy.
-                </p>
+        <section className="seo_page bg-black text-white pb-20">
+            <div className='container-fluid'>
+                {/* Custom styles for this page to match the reference exactly */}
+                <style jsx>{`
+                .seo-heading {
+                    font-family: var(--font-roboto), sans-serif;
+                    font-size: clamp(2rem, 5vw, 45px); /* Responsive font size */
+                    font-weight: 600;
+                    line-height: 1.2;
+                    color: white;
+                    position: relative;
+                    z-index: 10;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+                .seo-hero-section {
+                    position: relative;
+                    width: 100%;
+                    overflow: hidden;
+                    padding-top: 4rem;
+                    padding-bottom: 4rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                @media (min-width: 768px) {
+                    .seo-hero-section {
+                        padding-top: 6rem;
+                        padding-bottom: 6rem;
+                    }
+                }
+                .seo-gradient-bg {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 100%;
+                    height: 100%;
+                    min-height: 500px;
+                    background: radial-gradient(circle, rgba(252, 217, 1, 0.5) 0%, rgba(255, 255, 255, 0) 70%);
+                    z-index: 0;
+                    pointer-events: none;
+                }
+                
+                .seo-content h2, .seo-content h3, .seo-content h4 {
+                    font-family: var(--font-roboto), sans-serif;
+                    font-weight: 600;
+                    color: white;
+                    margin-top: 2.5rem;
+                    margin-bottom: 1rem;
+                }
+            
+                .seo-content h3 { font-size: clamp(1.5rem, 3vw, 1.75rem); line-height: 1.3; }
+                .seo-content h4 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); line-height: 1.3; }
+                .seo-content ul, .seo-content ol {
+                    margin-bottom: 1.5rem;
+                    padding-left: 1.5rem;
+                }
+                .seo-content li {
+                    margin-bottom: 0.5rem;
+                    font-size: clamp(1rem, 2vw, 1.125rem);
+                    color: white;
+                }
+                .seo-content li::marker {
+                    color: #FCD901; /* Marketing yellow */
+                }
+                .seo-content strong {
+                    color: white;
+                    font-weight: 600;
+                }
+            `}</style>
 
-                <h3>The Future of Mobility Rehabilitation Starts Here</h3>
-                <p>Every year, millions of patients in India struggle with mobility loss due to:</p>
-                <ul>
-                    <li>Stroke</li>
-                    <li>Spinal cord injuries</li>
-                    <li>Traumatic brain injuries</li>
-                    <li>Cerebral palsy</li>
-                    <li>Neuro-muscular disorders</li>
-                    <li>Orthopedic surgeries</li>
-                </ul>
-                <p>
-                    Traditional therapy often cannot provide the high-repetition, intensity, and precision required for
-                    effective neurological recovery.
-                </p>
-                <p><strong>This is where robotic rehabilitation changes everything.</strong></p>
+                {/* Full Width Hero Section with Gradient and H1 */}
+                <div className="seo-hero-section text-center">
+                    <div className="seo-gradient-bg"></div>
+                    <div className="container mx-auto px-4 relative z-10">
+                        <h1 className="seo-heading">
+                            {"Rehabilitation Robotics, Redefining Mobility, Recovery and Human Dignity".split(" ").map((word, index) => (
+                                <motion.span
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                                    viewport={{ once: true }}
+                                    style={{ display: "inline-block", marginRight: "0.25em" }}
+                                >
+                                    {word}
+                                </motion.span>
+                            ))}
+                        </h1>
+                    </div>
+                </div>
 
-                <h3>Introducing G-Gaiter - Genrobotics’ Flagship Rehabilitation Robot</h3>
-                <p>
-                    G-Gaiter is an AI-powered robotic gait training system that simulates natural walking movement
-                    while supporting the patient’s body weight and balance. It empowers physiotherapists with real-
-                    time data, adjustable therapy intensity, and unmatched consistency in treatment delivery.
-                </p>
+                {/* Content Section - Expanded width to match heading (max-w-[1200px]) */}
+                <div className="container mx-auto px-4 max-w-[1200px] pt-8 md:pt-12">
+                    <div className="seo-content">
+                        <p className="text-base md:text-lg leading-relaxed text-white mb-6">
+                            Genrobotics’ G Gaiter is the advanced robotic gait trainer built to support mobility
+                            rehabilitation with precision, safety and structured therapy. It is designed for individuals
+                            recovering from stroke, spinal cord injury, traumatic brain injury, neuro muscular conditions
+                            and post surgical mobility challenges. The system delivers consistent gait training that goes
+                            far beyond what manual therapy can achieve.
+                        </p>
+                        <p className="text-base md:text-lg leading-relaxed text-white mb-6">
+                            By combining refined biomechanics with AI driven feedback, the G Gaiter strengthens the
+                            foundation of modern neuro rehabilitation and robotic physiotherapy.
+                        </p>
 
-                <h4>Key Features of G-Gaiter</h4>
-                <ul>
-                    <li><strong>AI-Powered Gait Correction:</strong> Continuous real-time tracking adjusts motion patterns to correct asymmetry and deviation.</li>
-                    <li><strong>Natural Walking Simulation:</strong> Biomechanically engineered to mimic human gait cycles for optimal neuroplasticity.</li>
-                    <li><strong>Customizable Support Levels:</strong> Therapists can adjust speed, intensity, bodyweight support, and step length.</li>
-                    <li><strong>High-Repetition Training for Faster Recovery:</strong> Delivers thousands of controlled steps per session - crucial for neural rewiring.</li>
-                    <li><strong>Intelligent Safety & Stability Systems:</strong> Fall-prevention technology ensures safer therapy for high-risk patients.</li>
-                    <li><strong>Clinical-Grade Data Analytics:</strong> Monitors patient progress, gait patterns, symmetry indices, and recovery milestones.</li>
-                </ul>
-
-                <h3>Why Choose Rehabilitation Robots for Your Hospital or Rehab Centre?</h3>
-                <ol>
-                    <li>
-                        <strong>Higher Recovery Success Rates</strong>
-                        <p>Robotic gait training has proven to improve:</p>
-                        <ul>
-                            <li>Balance control</li>
-                            <li>Walking speed</li>
-                            <li>Gait symmetry</li>
-                            <li>Muscle coordination</li>
-                            <li>Overall mobility</li>
+                        <h3>A New Era of Mobility Rehabilitation</h3>
+                        <p className="text-base md:text-lg leading-relaxed text-white mb-6">Mobility loss can follow conditions such as</p>
+                        <ul className="list-disc">
+                            <li>Stroke</li>
+                            <li>Spinal cord injury</li>
+                            <li>Traumatic brain injury</li>
+                            <li>Neuro muscular disorders</li>
+                            <li>Orthopedic surgeries</li>
                         </ul>
-                    </li>
-                    <li><strong>Evidence-Based, High-Intensity Therapy:</strong> Patients receive consistent and fatigue-free rehabilitation.</li>
-                    <li><strong>Enhanced Therapist Productivity:</strong> One therapist can supervise more patients with greater efficiency.</li>
-                    <li><strong>Standardized Therapy Protocols:</strong> Reduces variability between sessions and clinicians.</li>
-                    <li><strong>Improved Patient Motivation:</strong> Engaging visuals, measurable progress, and safe assistance boost patient confidence.</li>
-                </ol>
+                        <p className="text-base md:text-lg leading-relaxed text-white mb-6">
+                            Traditional therapy often cannot sustain the repetition and precision needed for effective
+                            neurological relearning. Robotic rehabilitation changes that, offering structured, repeatable
+                            and controlled movement that supports better PMR outcomes.
+                        </p>
 
-                <h3>Clinical Applications of G-Gaiter</h3>
-                <ul>
-                    <li><strong>Stroke Rehabilitation:</strong> Restores gait function by stimulating neuroplasticity through repetitive, precise movement.</li>
-                    <li><strong>Spinal Cord Injury Rehabilitation:</strong> Supports early mobilization with controlled movement patterns.</li>
-                    <li><strong>Traumatic Brain Injury Rehabilitation:</strong> Improves balance, coordination, and postural stability.</li>
-                    <li><strong>Cerebral Palsy Rehabilitation:</strong> Promotes gait correction and motor learning in pediatric and adult patients.</li>
-                    <li><strong>Orthopedic Post-Surgery Recovery:</strong> Accelerates mobility restoration after joint replacement or fractures.</li>
-                </ul>
+                        <h3>G Gaiter, Genrobotics’ Robotic Gait Trainer</h3>
+                        <p className="text-base md:text-lg leading-relaxed text-white mb-6">
+                            The G Gaiter simulates natural walking patterns while supporting balance and bodyweight. It
+                            gives therapists clear data, consistent movement cycles and precise control over training
+                            intensity.
+                        </p>
 
-                <h3>Designed for Hospitals, Rehabilitation Centres & Neuro Clinics</h3>
-                <p>G-Gaiter fits seamlessly into:</p>
-                <ul>
-                    <li>Neuro-rehabilitation facilities</li>
-                    <li>Multispeciality hospitals</li>
-                    <li>Orthopedic centers</li>
-                    <li>Stroke care units</li>
-                    <li>Long-term care & geriatric centers</li>
-                    <li>Physiotherapy Institutes</li>
-                </ul>
-                <p>Its compact design, easy operation, and advanced technology make it ideal for urban hospitals and Tier-2/Tier-3 care centers.</p>
+                        <h4>Key Capabilities</h4>
+                        <ul className="list-disc">
+                            <li><strong>AI based gait correction:</strong> Tracks movement and helps reduce deviations through continuous feedback.</li>
+                            <li><strong>Natural gait simulation:</strong> Biomechanical design supports smoother motor relearning.</li>
+                            <li><strong>Adjustable support:</strong> Therapists can set speed, step length, intensity and bodyweight support as needed.</li>
+                            <li><strong>High repetition training:</strong> Delivers controlled, repeatable steps that help reinforce neural pathways.</li>
+                            <li><strong>Built in safety systems:</strong> Stability support improves safety for users with limited balance.</li>
+                            <li><strong>Clinical data insights:</strong> Tracks gait parameters, symmetry and progress across sessions.</li>
+                        </ul>
 
-                <h3>Why Genrobotics?</h3>
-                <p>
-                    Genrobotics is India's leading deep-tech company known for merging engineering innovation
-                    with social purpose. From eliminating manual scavenging through robotics to transforming
-                    healthcare with G-Gaiter, our mission remains the same:
-                </p>
-                <p><strong>To enhance human dignity through the power of intelligent robotics.</strong></p>
+                        <h3>Why Robotic Rehabilitation Strengthens PMR Practice</h3>
+                        <ul className="list-disc">
+                            <li><strong>Improved functional gains:</strong> Supports better gait symmetry, balance, coordination and mobility.</li>
+                            <li><strong>Reliable high intensity sessions:</strong> Therapy remains consistent, structured and fatigue free.</li>
+                            <li><strong>Better therapist efficiency:</strong> Clinicians can manage sessions with greater clarity and control.</li>
+                            <li><strong>Standardized protocols:</strong> Reduces variability between sessions.</li>
+                            <li><strong>Better motivation for users:</strong> Visible progress and steady support build confidence.</li>
+                        </ul>
 
-                <h4>What Sets Us Apart?</h4>
-                <ul>
-                    <li>Indigenous R&D and manufacturing</li>
-                    <li>Clinically validated robotic systems</li>
-                    <li>Strong support & service network</li>
-                    <li>Affordable solutions compared to imported robots</li>
-                    <li>Built for India’s healthcare challenges</li>
-                </ul>
+                        <h3>Clinical Applications</h3>
+                        <ul className="list-disc">
+                            <li>Stroke rehabilitation</li>
+                            <li>Spinal cord injury rehabilitation</li>
+                            <li>Traumatic brain injury rehabilitation</li>
+                            <li>Orthopedic post surgery recovery</li>
+                        </ul>
 
-                <h3>Frequently Asked Questions (FAQ)</h3>
-                <div>
-                    <h4>1. What is a rehabilitation robot?</h4>
-                    <p>A rehabilitation robot assists patients in restoring mobility by providing controlled, repetitive, and natural movement patterns essential for neurological recovery.</p>
+                        <h3>Built for Rehabilitation Centres and Clinical Facilities</h3>
+                        <p className="text-base md:text-lg leading-relaxed text-white mb-6">The G Gaiter integrates well into</p>
+                        <ul className="list-disc">
+                            <li>Neuro rehabilitation units</li>
+                            <li>Multispeciality hospitals</li>
+                            <li>Orthopedic centers</li>
+                            <li>Stroke care units</li>
+                            <li>Long term care facilities</li>
+                            <li>Physiotherapy institutes</li>
+                        </ul>
+                        <p className="text-base md:text-lg leading-relaxed text-white mb-6">Its compact footprint and smooth operation make it suitable even for smaller centres.</p>
+
+                        <h3>Genrobotics</h3>
+                        <p className="text-base md:text-lg leading-relaxed text-white mb-6">
+                            Genrobotics builds solutions that merge engineering with purpose, focusing on technologies
+                            that elevate human dignity. The G Gaiter reflects this mission by enabling structured,
+                            confident mobility rehabilitation.
+                        </p>
+
+                        <h4>What Sets Us Apart</h4>
+                        <ul className="list-disc">
+                            <li>In house research and development</li>
+                            <li>Clinically validated engineering</li>
+                            <li>Strong service and support</li>
+                            <li>Designed to meet diverse rehabilitation needs</li>
+                        </ul>
+
+                        <h3>Frequently Asked Questions</h3>
+                        <div className="space-y-6">
+                            <div>
+                                <h4 className="font-bold text-lg mb-2">1. What is a rehabilitation robot?</h4>
+                                <p className="text-base md:text-lg leading-relaxed text-white">It is a system that supports mobility restoration through controlled, repetitive gait cycles essential for neurological recovery.</p>
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-lg mb-2">2. Who can benefit from the G Gaiter?</h4>
+                                <p className="text-base md:text-lg leading-relaxed text-white">Individuals with stroke, spinal injuries, traumatic brain injury, Parkinson’s and post operative mobility challenges.</p>
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-lg mb-2">3. How does robotic gait training help recovery?</h4>
+                                <p className="text-base md:text-lg leading-relaxed text-white">By delivering accurate, repeatable movement that supports motor relearning.</p>
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-lg mb-2">4. Is it safe for older adults?</h4>
+                                <p className="text-base md:text-lg leading-relaxed text-white">Yes. Stability support, bodyweight assistance and adjustable parameters help ensure safety.</p>
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-lg mb-2">5. Does it replace physiotherapists?</h4>
+                                <p className="text-base md:text-lg leading-relaxed text-white">No. It supports their clinical judgement by providing precise mechanical assistance.</p>
+                            </div>
+                        </div>
+
+                        <div className="mt-16 p-8 bg-gray-50 rounded-2xl border border-gray-100 text-center">
+                            <h3 className="!mt-0 !mb-4" style={{ color: '#374151' }}>Strengthen Your Rehabilitation Practice</h3>
+                            <p className="text-base md:text-lg leading-relaxed text-gray-700">
+                                If you are upgrading your PMR department or planning an advanced neuro rehabilitation
+                                setup, the G Gaiter is a reliable and clinically aligned gait trainer designed to support stronger
+                                rehabilitation progress.
+                            </p>
+                            <div className="mt-8 pt-6 border-t border-gray-200">
+                                <p className="font-bold text-xl text-black mb-2">📞 Book a Demo | 📩 Request a Quote</p>
+                                <p className="text-gray-600">Empower recovery. Support mobility. Uphold human dignity with Genrobotics’ rehabilitation solutions.</p>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-                <div>
-                    <h4>2. Who can benefit from G-Gaiter?</h4>
-                    <p>Patients with stroke, spinal injuries, cerebral palsy, Parkinson’s disease, traumatic brain injury, and postoperative mobility challenges.</p>
-                </div>
-                <div>
-                    <h4>3. How does robotic gait training improve recovery?</h4>
-                    <p>It delivers high-intensity, repetitive, and accurate gait cycles that stimulate neuroplasticity - enabling faster and more effective rehabilitation.</p>
-                </div>
-                <div>
-                    <h4>4. Is G-Gaiter safe for elderly patients?</h4>
-                    <p>Yes. It includes bodyweight support, fall-prevention systems, and adjustable motion parameters to ensure maximum safety.</p>
-                </div>
-                <div>
-                    <h4>5. Can G-Gaiter replace physiotherapists?</h4>
-                    <p>No. It augments their capabilities by providing precise mechanical assistance while therapists focus on clinical decision-making.</p>
-                </div>
-
-                <h3>Transform Your Rehabilitation Outcomes with Genrobotics</h3>
-                <p>
-                    Whether you're upgrading your hospital’s rehabilitation department or building a state-of-the-art
-                    neuro-rehab facility, G-Gaiter is the most advanced, reliable, and clinically effective solution
-                    available in India.
-                </p>
-
-                <div className="contact_section">
-                    <p><strong>📞 Book a Demo | 📩 Request a Quote | 🤝 Partner with Genrobotics</strong></p>
-                    <p>Empower recovery. Restore mobility. Redefine human dignity - with Genrobotics Rehabilitation Robots.</p>
-                </div>
-
             </div>
         </section>
     );

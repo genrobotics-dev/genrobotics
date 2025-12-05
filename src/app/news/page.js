@@ -21,14 +21,14 @@ export async function generateMetadata() {
     };
 
     const title = meta_title || "Robotics News | Genrobotics Press Releases & Media Updates"
-    const description = getText(meta_description) ||"Explore robotics news and press releases from Genrobotics. Get insights into our innovations, partnerships, and milestones transforming the robotics industry."
+    const description = getText(meta_description) || "Explore robotics news and press releases from Genrobotics. Get insights into our innovations, partnerships, and milestones transforming the robotics industry."
     const primaryKeywords = getText(keyword);
     const secondaryKeywords = getText(secondary_keyword);
 
     return {
       title,
       description,
-      keywords: primaryKeywords && secondaryKeywords 
+      keywords: primaryKeywords && secondaryKeywords
         ? `${primaryKeywords}, ${secondaryKeywords}`
         : "",
       alternates: {

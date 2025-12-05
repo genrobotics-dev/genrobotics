@@ -21,11 +21,11 @@ export async function generateMetadata() {
     const description = getText(meta_description) || "Discover robotics case studies that highlight Genrobotics' impact across industries. Learn how our robotic solutions drive efficiency, safety, and social transformation..";
     const primaryKeywords = getText(keyword);
     const secondaryKeywords = getText(secondary_keyword);
-    
+
     return {
       title,
       description,
-      keywords: primaryKeywords && secondaryKeywords 
+      keywords: primaryKeywords && secondaryKeywords
         ? `${primaryKeywords}, ${secondaryKeywords}`
         : "",
       alternates: {
