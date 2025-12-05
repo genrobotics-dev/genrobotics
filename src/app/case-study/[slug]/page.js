@@ -10,10 +10,10 @@ export const dynamicParams = false;
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
-  
+
   try {
     const caseStudy = await client.getByUID("case_studies", resolvedParams.slug);
-    
+
     if (!caseStudy) {
       return {
         title: "Case Study Not Found | Genrobotics",
@@ -24,13 +24,30 @@ export async function generateMetadata({ params }) {
       };
     }
 
-    const { seo_title, meta_description } = caseStudy.data || {};
+    const { seo_title, meta_description, primary_keywords, secondary_keywords, voice_search_keywords } = caseStudy.data || {};
     const caseStudyTitle = caseStudy.data?.title?.[0]?.text || 'Untitled';
     const caseStudySummary = caseStudy.data?.summary || '';
+
+    // Helper to extract keywords from Prismic rich text or string
+    const getKeywords = (field) => {
+      if (Array.isArray(field)) {
+        return field.map(k => typeof k.text === "string" ? k.text : "").join(" ");
+      } else if (typeof field === "string") {
+        return field;
+      }
+      return "";
+    };
+
+    const keywords = [
+      getKeywords(primary_keywords),
+      getKeywords(secondary_keywords),
+      getKeywords(voice_search_keywords)
+    ].filter(Boolean).join(", ");
 
     return {
       title: seo_title || `${caseStudyTitle} | Genrobotics Case Study`,
       description: meta_description || caseStudySummary || `Read about ${caseStudyTitle} - a Genrobotics case study showcasing robotics solutions and success stories.`,
+      keywords,
       alternates: {
         canonical: `https://genrobotics.com/case-study/${resolvedParams.slug}`,
       },
@@ -69,7 +86,7 @@ export async function generateMetadata({ params }) {
 export async function generateStaticParams() {
   try {
     const caseStudies = await client.getAllByType("case_studies");
-    
+
     if (!caseStudies || caseStudies.length === 0) {
       console.log("No case studies found, returning empty array");
       return [];

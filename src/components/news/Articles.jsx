@@ -28,10 +28,10 @@ const Articles = () => {
         image: a.data.image?.url,
         date: a.data.published_date
           ? new Date(a.data.published_date).toLocaleDateString("en-US", {
-              month: "short",
-              day: "2-digit",
-              year: "numeric",
-            })
+            month: "short",
+            day: "2-digit",
+            year: "numeric",
+          })
           : "",
         link: a.data.article_link?.url || null,
       }));
@@ -54,16 +54,16 @@ const Articles = () => {
   };
 
   return (
-    <section className="py-8 sm:py-12 space-y-6 sm:space-y-8 section px-4 sm:px-6">
-      <h2 className="font-anton text-white text-2xl sm:text-3xl md:text-4xl">
+    <section className="relative z-20 py-8 sm:py-12 space-y-6 sm:space-y-8 section px-4 sm:px-6 pointer-events-none">
+      <h2 className="font-anton text-white text-2xl sm:text-3xl md:text-4xl" style={{ cursor: 'text', pointerEvents: 'auto' }}>
         Latest <span className="text-[#FCD901]">Coverage</span>
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 pointer-events-auto">
         {articles.length === 0 ? (
           <div className="col-span-full flex flex-col items-center justify-center text-center py-16">
             <h2 className="text-white text-lg sm:text-xl mt-6">
-             The latest happenings are on their way.{" "}
+              The latest happenings are on their way.{" "}
             </h2>
             <p className="text-gray-400 mt-2 text-sm sm:text-base">
               Check back soon for updates
@@ -123,7 +123,7 @@ const Articles = () => {
       </div>
 
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 sm:gap-4 mt-6 sm:mt-8">
+        <div className="relative z-30 flex items-center justify-center gap-2 sm:gap-4 mt-6 sm:mt-8 pointer-events-auto">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
@@ -135,11 +135,10 @@ const Articles = () => {
             <button
               key={i}
               onClick={() => handlePageChange(i + 1)}
-              className={`px-2 sm:px-4 py-1 sm:py-2 rounded-full cursor-pointer text-xs sm:text-sm ${
-                currentPage === i + 1
-                  ? "bg-[#FCD901] text-black"
-                  : "bg-gray-700 text-white"
-              }`}
+              className={`px-2 sm:px-4 py-1 sm:py-2 rounded-full cursor-pointer text-xs sm:text-sm ${currentPage === i + 1
+                ? "bg-[#FCD901] text-black"
+                : "bg-gray-700 text-white"
+                }`}
             >
               {i + 1}
             </button>

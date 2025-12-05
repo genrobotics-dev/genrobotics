@@ -17,11 +17,11 @@ export async function generateMetadata() {
     const page = await client.getByUID("metadata_landing_page", "home");
 
     // Adapt to Prismic's response structure (array for Rich Text fields)
-    const { 
-      meta_title, 
-      meta_description, 
-      keyword, 
-      secondary_keyword 
+    const {
+      meta_title,
+      meta_description,
+      keyword,
+      secondary_keyword
     } = page.data || {};
 
     // Prismic text fields may come as arrays of objects with .text property (Rich Text)
@@ -42,27 +42,27 @@ export async function generateMetadata() {
     const keywords = (primaryKeywords && secondaryKeywords)
       ? `${primaryKeywords}, ${secondaryKeywords}`
       : [
-          // Primary keywords
-          "robotics solutions",
-          "AI robotics",
-          "industrial robotics",
-          "sanitation robots",
-          "healthcare robotics",
-          "oil gas robotics",
-          "robotic automation",
-          "Genrobotics",
-          // Secondary keywords
-          "robotics company India",
-          "robotic engineering",
-          "automation technology",
-          "smart robotics",
-          "robotic systems",
-          "AI automation",
-          "robotics innovation",
-          "robotic manufacturing",
-          "robotics research",
-          "robotic solutions provider"
-        ].join(", ");
+        // Primary keywords
+        "robotics solutions",
+        "AI robotics",
+        "industrial robotics",
+        "sanitation robots",
+        "healthcare robotics",
+        "oil gas robotics",
+        "robotic automation",
+        "Genrobotics",
+        // Secondary keywords
+        "robotics company India",
+        "robotic engineering",
+        "automation technology",
+        "smart robotics",
+        "robotic systems",
+        "AI automation",
+        "robotics innovation",
+        "robotic manufacturing",
+        "robotics research",
+        "robotic solutions provider"
+      ].join(", ");
 
     return {
       title,

@@ -3,7 +3,7 @@ import React from "react";
 
 const ClientsData = [];
 
-for (let i = 1; i <= 88; i++) {
+for (let i = 1; i <= 90; i++) {
   ClientsData.push({
     icon: `/home/clients/client${i}.webp`,
     width: 100, // You can set a default width
