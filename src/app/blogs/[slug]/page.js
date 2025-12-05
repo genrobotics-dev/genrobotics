@@ -4,8 +4,9 @@ import { PrismicRichText } from "@prismicio/react";
 import serializers from "@/components/richtext/PrismicSerializers";
 
 // Simple utility to convert plain URLs in text into clickable anchor elements.
+// Simple utility to convert plain URLs in text into clickable anchor elements.
 function linkify(text) {
-  if (!text) return null;
+  if (!text || typeof text !== 'string') return text;
   // Split on URLs, keep the URLs in the result
   const parts = text.split(/(https?:\/\/[^\s)]+)/g);
   return parts.map((part, i) => {
@@ -32,6 +33,7 @@ export const dynamicParams = false;
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
+  console.log(resolvedParams);
 
   try {
     const blog = await client.getByUID("blogs", resolvedParams.slug);
@@ -111,8 +113,9 @@ export async function generateMetadata({ params }) {
 export async function generateStaticParams() {
   try {
     const blogs = await client.getAllByType("blogs");
+    console.log(blogs);
 
-    if (!blogs || blogs.length === 0) {
+    if (!blogs) {
       console.log("No blogs found, returning empty array");
       return [];
     }
@@ -134,14 +137,14 @@ const cleanText = (text) => {
 
 // Utility to recursively clean Prismic Rich Text fields
 const cleanRichText = (richText) => {
-  if (!Array.isArray(richText)) return richText;
+  if (!Array.isArray(richText)) return [];
   return richText.map(node => ({
     ...node,
-    text: node.text ? cleanText(node.text) : node.text,
-    spans: node.spans ? node.spans.map(span => ({
+    text: typeof node.text === 'string' ? cleanText(node.text) : '',
+    spans: Array.isArray(node.spans) ? node.spans.map(span => ({
       ...span,
       data: span.data && span.data.url ? { ...span.data, url: span.data.url.trim() } : span.data
-    })) : node.spans
+    })) : []
   }));
 };
 
@@ -158,7 +161,14 @@ export default async function BlogDetailPage({ params }) {
 
   // Clean the summary and content
   const cleanSummary = cleanText(blog.data?.summary || '');
-  const cleanContent = cleanRichText(blog?.data?.section?.content || blog?.data?.content || blog?.data?.body);
+
+  // Fallback priority: section.content -> content -> body (only if NOT slices)
+  const rawContent = blog?.data?.section?.content || blog?.data?.content || blog?.data?.body;
+
+  // Verify it is likely Rich Text (has 'type' but NO 'slice_type')
+  const isValidRichText = Array.isArray(rawContent) && rawContent.every(item => item.type && !item.slice_type);
+
+  const cleanContent = isValidRichText ? cleanRichText(rawContent) : [];
 
   return (
     <article className="max-w-3xl mx-auto px-6 py-12 md:py-16 my-16 md:my-24">
@@ -196,10 +206,12 @@ export default async function BlogDetailPage({ params }) {
           </p>
         </section>
       )}
-      <PrismicRichText
-        field={cleanContent}
-        components={serializers}
-      />
+      {cleanContent.length > 0 && (
+        <PrismicRichText
+          field={cleanContent}
+          components={serializers}
+        />
+      )}
     </article>
   );
 }

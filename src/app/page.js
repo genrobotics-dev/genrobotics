@@ -1,6 +1,5 @@
 // import Awards from "@/components/home/Awards";
 import Script from "next/script";
-import Clients from "@/components/home/Clients";
 import Intro from "@/components/home/Intro";
 import Mission from "@/components/home/Mission";
 import Principles from "@/components/home/Principles";
@@ -156,7 +155,6 @@ export default function Home() {
           <Awards />
           <Principles />
           <Testmonials />
-          <Clients />
         </div>
         <Script
           id="organization-schema"

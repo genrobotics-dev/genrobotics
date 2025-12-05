@@ -50,7 +50,8 @@ export async function generateMetadata() {
     }
 }
 
-const Page = ({ searchParams }) => {
+const Page = async ({ searchParams }) => {
+    const resolvedSearchParams = await searchParams;
     return (
         <main className="relative">
             {/* Fixed hero intro */}
@@ -58,7 +59,7 @@ const Page = ({ searchParams }) => {
 
             {/* Content below hero (overlaps it on scroll) */}
             <div className="relative z-0 pt-[100vh]">
-                <Blogs searchParams={searchParams} />
+                <Blogs searchParams={resolvedSearchParams} />
             </div>
         </main>
     );

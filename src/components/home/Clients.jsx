@@ -40,6 +40,8 @@ const Clients = () => {
                   width={item.width}
                   height={item.height}
                   className="object-contain max-h-16 md:max-h-20 2xl:max-h-24"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             ))}

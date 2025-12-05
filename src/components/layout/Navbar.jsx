@@ -55,7 +55,7 @@ const Navbar = () => {
   if (!mounted) return null;
 
   return (
-    <nav className="fixed top-0 w-full z-20 px-4 sm:px-8 lg:px-12 py-4 sm:py-6 lg:py-8 flex items-center justify-between bg-black/80 backdrop-blur-sm transition-all duration-300">
+    <nav className="fixed top-0 w-full z-20 px-4 sm:px-8 lg:px-12 py-4 sm:py-6 lg:py-8 flex items-center justify-between bg-black/80 transition-all duration-300">
       {/* Logo */}
       <a href="https://genrobotics.com" aria-label="Genrobotics homepage" className="flex-shrink-0">
         <Image
@@ -71,9 +71,8 @@ const Navbar = () => {
       {/* Desktop Nav */}
       <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
         <div
-          className={`flex space-x-4 lg:space-x-8 px-3 sm:px-4 py-1 ${
-            pathname === "/CSR/" ? "bg-black/40" : "bg-[#2b2b2b]"
-          } rounded-lg`}
+          className={`flex space-x-4 lg:space-x-8 px-3 sm:px-4 py-1 ${pathname === "/CSR/" ? "bg-black/40" : "bg-[#2b2b2b]"
+            } rounded-lg`}
         >
           <Link
             href="/"
@@ -146,7 +145,7 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Hamburger */}
-        <div className="md:hidden">
+      <div className="md:hidden">
         <button
           onClick={() => setIsOpen(true)}
           aria-label="Open menu"
@@ -172,13 +171,12 @@ const Navbar = () => {
 
       {/* Mobile Menu Modal */}
       <div
-        className={`fixed inset-0 flex items-start justify-center bg-black/70 backdrop-blur-md z-40 transition-opacity duration-300 ${
-          isOpen
+        className={`fixed inset-0 flex items-start justify-center bg-black/70 z-40 transition-opacity duration-300 ${isOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
-        }`}
+          }`}
       >
-        <div className="relative rounded-xl h-screen w-11/12 max-w-md p-8 flex flex-col justify-center space-y-6 text-center bg-black/80 backdrop-blur-md border border-gray-700/50 shadow-2xl">
+        <div className="relative rounded-xl h-dvh w-11/12 max-w-md p-8 flex flex-col justify-center space-y-6 text-center bg-black/80 border border-gray-700/50 shadow-2xl">
           {/* Close Button */}
           <button
             onClick={() => setIsOpen(false)}
@@ -228,9 +226,8 @@ const Navbar = () => {
               Resources
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className={`h-5 w-5 transition-transform absolute top-2 right-2 ${
-                  mobileResourcesOpen ? "rotate-180" : "rotate-0"
-                }`}
+                className={`h-5 w-5 transition-transform absolute top-2 right-2 ${mobileResourcesOpen ? "rotate-180" : "rotate-0"
+                  }`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
