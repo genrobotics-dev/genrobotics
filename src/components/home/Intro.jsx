@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import coverMobile from "../../../public/home/cover-mobile.webp";
+import coverMd from "../../../public/home/cover-md.webp";
+import coverLg from "../../../public/home/cover-lg.webp";
 
 const Intro = () => {
   return (
     <section className="relative w-full">
-
       <Image
-        src="/home/cover-mobile.webp"
+        src={coverMobile}
         alt="Intro background"
         width={1920}
         height={1080}
@@ -14,7 +16,7 @@ const Intro = () => {
         priority
       />
       <Image
-        src="/home/cover-md.webp"
+        src={coverMd}
         alt="Intro background"
         width={1920}
         height={1080}
@@ -22,7 +24,7 @@ const Intro = () => {
         priority
       />
       <Image
-        src="/home/cover-lg.webp"
+        src={coverLg}
         alt="Intro background"
         width={1920}
         height={1080}

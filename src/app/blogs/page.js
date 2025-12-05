@@ -3,65 +3,65 @@ import Intro from "@/components/blogs/Intro";
 import React from "react";
 import { client } from "../../../prismicio";
 export async function generateMetadata() {
-  try {
-    // Replace with your actual Custom Type and UID
-    const page = await client.getByUID("metadata_landing_page", "blogs");
+    try {
+        // Replace with your actual Custom Type and UID
+        const page = await client.getByUID("metadata_landing_page", "blogs");
 
-    const { meta_title, meta_description, keyword, secondary_keyword } = page.data || {};
+        const { meta_title, meta_description, keyword, secondary_keyword } = page.data || {};
 
-    const getText = (field) => {
-      if (Array.isArray(field) && field.length > 0 && typeof field[0].text === "string") {
-        return field.map(f => f.text).join(" "); // Join paragraphs if multiple
-      } else if (typeof field === "string") {
-        return field;
-      }
-      return "";
-    };
+        const getText = (field) => {
+            if (Array.isArray(field) && field.length > 0 && typeof field[0].text === "string") {
+                return field.map(f => f.text).join(" "); // Join paragraphs if multiple
+            } else if (typeof field === "string") {
+                return field;
+            }
+            return "";
+        };
 
-    const title = meta_title || "Robotics Articles | Genrobotics Blog on Innovation & Technology";
-    const description = getText(meta_description) || "Discover expert robotics articles covering AI, automation, and robotic engineering. Read Genrobotics insights on how robotics is transforming industries and lives.";
-    const primaryKeywords = getText(keyword);
-    const secondaryKeywords = getText(secondary_keyword);
+        const title = meta_title || "Robotics Articles | Genrobotics Blog on Innovation & Technology";
+        const description = getText(meta_description) || "Discover expert robotics articles covering AI, automation, and robotic engineering. Read Genrobotics insights on how robotics is transforming industries and lives.";
+        const primaryKeywords = getText(keyword);
+        const secondaryKeywords = getText(secondary_keyword);
 
-    return {
-      title,
-      description,
-      keywords: primaryKeywords && secondaryKeywords
-        ? `${primaryKeywords}, ${secondaryKeywords}`
-        : "",
-      alternates: {
-        canonical: "https://genrobotics.com/blogs",
-      },
-      openGraph: {
-        title,
-        description,
-      },
-    };
-  } catch (error) {
-    console.warn("Metadata fetch failed:", error);
-    return {
-      title: "Robotics Articles | Genrobotics Blog on Innovation & Technology",
-      description: "Discover expert robotics articles covering AI, automation, and robotic engineering. Read Genrobotics insights on how robotics is transforming industries and lives.",
-      keywords: "",
-      alternates: {
-        canonical: "https://genrobotics.com/blogs",
-      },
-    };
-  }
+        return {
+            title,
+            description,
+            keywords: primaryKeywords && secondaryKeywords
+                ? `${primaryKeywords}, ${secondaryKeywords}`
+                : "",
+            alternates: {
+                canonical: "https://genrobotics.com/blogs",
+            },
+            openGraph: {
+                title,
+                description,
+            },
+        };
+    } catch (error) {
+        console.warn("Metadata fetch failed:", error);
+        return {
+            title: "Robotics Articles | Genrobotics Blog on Innovation & Technology",
+            description: "Discover expert robotics articles covering AI, automation, and robotic engineering. Read Genrobotics insights on how robotics is transforming industries and lives.",
+            keywords: "",
+            alternates: {
+                canonical: "https://genrobotics.com/blogs",
+            },
+        };
+    }
 }
 
-const Page = () => {
-  return (
-    <main className="relative">
-      {/* Fixed hero intro */}
-      <Intro />
+const Page = ({ searchParams }) => {
+    return (
+        <main className="relative">
+            {/* Fixed hero intro */}
+            <Intro />
 
-      {/* Content below hero (overlaps it on scroll) */}
-      <div className="relative z-0 pt-[100vh]">
-        <Blogs />
-      </div>
-    </main>
-  );
+            {/* Content below hero (overlaps it on scroll) */}
+            <div className="relative z-0 pt-[100vh]">
+                <Blogs searchParams={searchParams} />
+            </div>
+        </main>
+    );
 };
 
 export default Page;

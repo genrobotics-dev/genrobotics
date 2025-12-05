@@ -10,16 +10,95 @@ html {
   scroll-behavior: smooth;
 }
 
-h1 { font-size: clamp(1.75rem, 2vw + 0.8rem, 3rem); }  /* 28–48px */
-h2 { font-size: clamp(1.75rem, 2vw + 0.8rem, 3rem); }  /* 28–48px */
-h3 { font-size: clamp(1.5rem, 1.5vw + 1rem, 1.875rem); }  /* 24–30px */
-h4 { font-size: clamp(1rem, 1vw + 0.5rem, 1.5rem); }  /* 16–24px */
-h5 { font-size: clamp(1rem, 0.8vw + 0.25rem, 1.125rem); }  /* 16–18px */
-h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
+/* Fix cursor for interactive elements */
+button,
+a,
+[role="button"],
+[type="button"],
+[type="submit"],
+[type="reset"],
+.slick-dots li,
+.slick-dots li button,
+input[type="checkbox"],
+input[type="radio"],
+select {
+  cursor: pointer !important;
+}
+
+/* Specific: Links and their direct children (like spans inside links) */
+a,
+a span,
+a img,
+button span {
+  cursor: pointer !important;
+}
+
+/* Ensure text cursor on text content - highest specificity */
+:not(a):not(button)>h1,
+:not(a):not(button)>h2,
+:not(a):not(button)>h3,
+:not(a):not(button)>h4,
+:not(a):not(button)>h5,
+:not(a):not(button)>h6,
+:not(a):not(button)>p {
+  cursor: text !important;
+}
+
+/* Also target headings/paragraphs in sections */
+section h1:not(a h1):not(button h1),
+section h2:not(a h2):not(button h2),
+section h3:not(a h3):not(button h3),
+section h4:not(a h4):not(button h4),
+div h2:not(a h2):not(button h2),
+div h3:not(a h3):not(button h3),
+div h4:not(a h4):not(button h4),
+div p:not(a p):not(button p) {
+  cursor: text !important;
+}
+
+/* Force text cursor on headings in primary content areas */
+.relative.z-20 h1,
+.relative.z-20 h2,
+.relative.z-20 h3,
+.relative.z-20 h4,
+.relative.z-20 p {
+  cursor: text !important;
+}
+
+h1 {
+  font-size: clamp(1.75rem, 2vw + 0.8rem, 3rem);
+}
+
+/* 28–48px */
+h2 {
+  font-size: clamp(1.75rem, 2vw + 0.8rem, 3rem);
+}
+
+/* 28–48px */
+h3 {
+  font-size: clamp(1.5rem, 1.5vw + 1rem, 1.875rem);
+}
+
+/* 24–30px */
+h4 {
+  font-size: clamp(1rem, 1vw + 0.5rem, 1.5rem);
+}
+
+/* 16–24px */
+h5 {
+  font-size: clamp(1rem, 0.8vw + 0.25rem, 1.125rem);
+}
+
+/* 16–18px */
+h6 {
+  font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem);
+}
+
+/* 12–16px */
 
 
 ::-webkit-scrollbar {
-  width: 8px;  
+  width: 8px;
   height: 8px;
 }
 
@@ -61,6 +140,7 @@ h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
   0% {
     transform: translateX(0%);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -70,6 +150,7 @@ h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -91,25 +172,30 @@ h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
 .marquee-content-client {
   display: flex;
   width: max-content;
-  animation: marqueeLoop 60s linear infinite; /* default speed */
+  animation: marqueeLoop 60s linear infinite;
+  /* default speed */
 }
 
 @media (max-width: 1440px) {
   .marquee-content-client {
-    animation-duration: 240s; /* faster */
+    animation-duration: 240s;
+    /* faster */
   }
 }
+
 /* Medium screens */
 @media (max-width: 1024px) {
   .marquee-content-client {
-    animation-duration: 300s; /* faster */
+    animation-duration: 300s;
+    /* faster */
   }
 }
 
 /* Small screens */
 @media (max-width: 640px) {
   .marquee-content-client {
-    animation-duration: 360s; /* even faster */
+    animation-duration: 360s;
+    /* even faster */
   }
 }
 
@@ -127,12 +213,13 @@ h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
      last child inside container elements so adjacent spacing is trimmed
      in browsers that don't support margin-trim.
 */
-.container > :first-child,
-.container-fluid > :first-child {
+.container> :first-child,
+.container-fluid> :first-child {
   margin-top: 0;
 }
-.container > :last-child,
-.container-fluid > :last-child {
+
+.container> :last-child,
+.container-fluid> :last-child {
   margin-bottom: 0;
 }
 
@@ -140,20 +227,25 @@ h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
    supported browsers will apply the native behavior while others keep the
    manual fallback above. */
 @supports (margin-trim: block) {
+
   .container,
   .container-fluid {
     margin-trim: block;
   }
 }
+
 .marquee {
   width: 100%;
   overflow: hidden;
 }
 
 .marquee-track {
-  display: flex;          /* row layout */
-  flex-wrap: nowrap;      /* NO wrapping */
-  width: max-content;     /* track is as wide as children */
+  display: flex;
+  /* row layout */
+  flex-wrap: nowrap;
+  /* NO wrapping */
+  width: max-content;
+  /* track is as wide as children */
   animation: marquee 30s linear infinite;
   will-change: transform;
 }
@@ -163,23 +255,40 @@ h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
 }
 
 .marquee-item {
-  flex: 0 0 auto;         /* don’t shrink, stay inline */
-  margin: 0 0.5rem;       /* same as mx-2 */
+  flex: 0 0 auto;
+  /* don’t shrink, stay inline */
+  margin: 0 0.5rem;
+  /* same as mx-2 */
 }
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%);}
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes marquee-horizontal {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes marquee-vertical {
-  0% { transform: translateY(0%); }
-  100% { transform: translateY(-50%); }
+  0% {
+    transform: translateY(0%);
+  }
+
+  100% {
+    transform: translateY(-50%);
+  }
 }
 
 .marquee-horizontal {
@@ -198,11 +307,13 @@ h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: white; /* inactive dots */
+  background-color: white;
+  /* inactive dots */
 }
 
 .slick-dots li.slick-active button {
-  background-color: #FCD901; /* active dot */
+  background-color: #FCD901;
+  /* active dot */
 }
 
 /* Optional: remove default outline on click */
@@ -217,16 +328,19 @@ h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
 
 /* Custom Scrollbar */
 .scrollbar-custom::-webkit-scrollbar {
-  height: 8px; /* horizontal height */
+  height: 8px;
+  /* horizontal height */
 }
 
 .scrollbar-custom::-webkit-scrollbar-track {
-  background: #1f2937; /* Tailwind gray-800 */
+  background: #1f2937;
+  /* Tailwind gray-800 */
   border-radius: 10px;
 }
 
 .scrollbar-custom::-webkit-scrollbar-thumb {
-  background: rgba(252, 217, 1, 0.6); /* same color, 60% opacity */
+  background: rgba(252, 217, 1, 0.6);
+  /* same color, 60% opacity */
   border-radius: 10px;
 }
 
@@ -236,14 +350,16 @@ h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
 
 
 .section {
-  padding-left: 1rem;  /* equivalent to px-4 */
+  padding-left: 1rem;
+  /* equivalent to px-4 */
   padding-right: 1rem;
 }
 
 /* Medium screens ≥768px */
 @media (min-width: 768px) {
   .section {
-    padding-left: 3rem;   /* px-12 */
+    padding-left: 3rem;
+    /* px-12 */
     padding-right: 3rem;
   }
 }
@@ -251,7 +367,8 @@ h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
 /* Extra-large screens ≥1280px */
 @media (min-width: 1280px) {
   .section {
-    padding-left: 9rem;   /* px-36 */
+    padding-left: 9rem;
+    /* px-36 */
     padding-right: 9rem;
   }
 }
@@ -259,7 +376,8 @@ h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
 /* 2xl screens ≥1536px */
 @media (min-width: 1536px) {
   .section {
-    padding-left: 8rem;  /* px-32 */
+    padding-left: 8rem;
+    /* px-32 */
     padding-right: 8rem;
   }
 }
@@ -267,7 +385,8 @@ h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
 /* 3xl ≥1920px */
 @media (min-width: 1920px) {
   .section {
-    padding-left: 16rem;  /* px-60 */
+    padding-left: 16rem;
+    /* px-60 */
     padding-right: 16rem;
   }
 }
@@ -275,15 +394,17 @@ h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
 /* 4xl ≥2560px */
 @media (min-width: 2560px) {
   .section {
-    padding-left: 20rem;  /* px-72 */
+    padding-left: 20rem;
+    /* px-72 */
     padding-right: 20rem;
   }
 }
 
 /* 5xl ≥3200px */
 @media (min-width: 3200px) {
-  .section { 
-    padding-left: 24rem;  /* px-96 */
+  .section {
+    padding-left: 24rem;
+    /* px-96 */
     padding-right: 24rem;
   }
 }
@@ -314,25 +435,46 @@ h6 { font-size: clamp(0.75rem, 0.6vw + 0.25rem, 1rem); }  /* 12–16px */
 */
 .crafting-hero h1 {
   /* base (mobile/inline) — let global clamp handle small screens, but provide a clear minimum */
-  font-size: 1.75rem; /* 28px */
+  font-size: 1.75rem;
+  /* 28px */
   line-height: 1.05;
 }
+
 .crafting-hero h2 {
-  font-size: 1.125rem; /* 18px */
+  font-size: 1.125rem;
+  /* 18px */
   line-height: 1.1;
 }
 
 @media (min-width: 768px) {
-  .crafting-hero h1 { font-size: 2rem; }    /* md */
-  .crafting-hero h2 { font-size: 1.25rem; }
+  .crafting-hero h1 {
+    font-size: 2rem;
+  }
+
+  /* md */
+  .crafting-hero h2 {
+    font-size: 1.25rem;
+  }
 }
 
 @media (min-width: 1024px) {
-  .crafting-hero h1 { font-size: 3.5rem; }  /* lg */
-  .crafting-hero h2 { font-size: 2rem; }
+  .crafting-hero h1 {
+    font-size: 3.5rem;
+  }
+
+  /* lg */
+  .crafting-hero h2 {
+    font-size: 2rem;
+  }
 }
 
 @media (min-width: 1536px) {
-  .crafting-hero h1 { font-size: 5rem; }  /* 2xl */
-  .crafting-hero h2 { font-size: 3rem; }
+  .crafting-hero h1 {
+    font-size: 5rem;
+  }
+
+  /* 2xl */
+  .crafting-hero h2 {
+    font-size: 3rem;
+  }
 }

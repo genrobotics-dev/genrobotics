@@ -26,10 +26,10 @@ const Intro = () => {
   return (
     <div
       className="fixed inset-0 w-full h-screen flex flex-col justify-center items-center bg-black overflow-hidden z-10 pointer-events-none"
-      style={{ opacity }}
+      style={{ opacity, visibility: opacity < 0.01 ? 'hidden' : 'visible' }}
     >
       {/* Hero content that can receive clicks */}
-      <div className="relative z-20 max-w-3xl px-6 text-center pointer-events-auto">
+      <div className="relative z-20 max-w-3xl px-6 text-center">
         <h1 className="font-anton text-white text-5xl md:text-7xl">
           News & <span className="text-[#FCD901]">Articles</span>
         </h1>

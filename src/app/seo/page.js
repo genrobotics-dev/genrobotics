@@ -129,7 +129,7 @@ const SeoPage = () => {
 
                         <h3>G Gaiter, Genrobotics’ Robotic Gait Trainer</h3>
                         <p className="text-base md:text-lg leading-relaxed text-white mb-6">
-                            The G Gaiter simulates natural walking patterns while supporting balance and bodyweight. It
+                            The <a href="https://www.genroboticsmedical.com/g-gaiter" target="_blank" className="text-white hover:underline">G Gaiter</a> simulates natural walking patterns while supporting balance and bodyweight. It
                             gives therapists clear data, consistent movement cycles and precise control over training
                             intensity.
                         </p>
@@ -212,16 +212,18 @@ const SeoPage = () => {
                             </div>
                         </div>
 
-                        <div className="mt-16 p-8 bg-gray-50 rounded-2xl border border-gray-100 text-center">
-                            <h3 className="!mt-0 !mb-4" style={{ color: '#374151' }}>Strengthen Your Rehabilitation Practice</h3>
-                            <p className="text-base md:text-lg leading-relaxed text-gray-700">
+                        <div className="mt-16 p-8 bg-black rounded-2xl border border-gray-500 shadow-yellow-500/50 shadow-lg text-center">
+                            <h3 className="!mt-0 !mb-4 text-white">Strengthen Your Rehabilitation Practice</h3>
+                            <p className="text-base md:text-lg leading-relaxed text-white">
                                 If you are upgrading your PMR department or planning an advanced neuro rehabilitation
                                 setup, the G Gaiter is a reliable and clinically aligned gait trainer designed to support stronger
                                 rehabilitation progress.
                             </p>
-                            <div className="mt-8 pt-6 border-t border-gray-200">
-                                <p className="font-bold text-xl text-black mb-2">📞 Book a Demo | 📩 Request a Quote</p>
-                                <p className="text-gray-600">Empower recovery. Support mobility. Uphold human dignity with Genrobotics’ rehabilitation solutions.</p>
+                            <div className="mt-8 pt-6 border-t border-gray-700">
+                                <p className="font-bold text-xl text-white mb-2">
+                                    📞 <a href="https://www.genroboticsmedical.com/#contact-form-12" className="text-white hover:underline">Book a Demo</a> | 📩 <a href="https://www.genroboticsmedical.com/#contact-form-12" className="text-white hover:underline">Request a Quote</a>
+                                </p>
+                                <p className="text-white">Empower recovery. Support mobility. Uphold human dignity with Genrobotics’ rehabilitation solutions.</p>
                             </div>
                         </div>
 
