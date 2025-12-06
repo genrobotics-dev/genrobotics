@@ -7,6 +7,7 @@ import Testmonials from "@/components/home/Testmonials";
 import Verticals from "@/components/home/Verticals";
 import Foundation from "@/components/home/Foundation";
 import Awards from "@/components/home/Awards";
+import Clients from "@/components/home/Clients";
 import { client } from "../../prismicio";
 
 
@@ -155,6 +156,7 @@ export default function Home() {
           <Awards />
           <Principles />
           <Testmonials />
+          <Clients />
         </div>
         <Script
           id="organization-schema"
