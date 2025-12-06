@@ -188,7 +188,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="space-y-4 mb-4 pb-4">
-            <div className="flex">
+            {/* <div className="flex">
               <Link
                 href="https://drive.google.com/file/d/1nY-sa_t8Kjk3hUu9V69bGmraxYZZwuwU/view"
                 className="px-6 py-2 rounded-lg text-xs bg-[#C5A341] w-fit mt-6 mx-auto"
@@ -197,7 +197,7 @@ const Footer = () => {
               >
                 Download E Brochure
               </Link>
-            </div>
+            </div> */}
             <div>
               <p className="font-thin text-sm text-white text-center mb-2">
                 Follow us on
