@@ -6,14 +6,15 @@ import coverLg from "../../../public/home/cover-lg.webp";
 
 const Intro = () => {
   return (
-    <section className="relative w-full">
+    <section className="relative w-full min-h-screen lg:min-h-[100dvh]">
       <Image
         src={coverMobile}
         alt="Intro background"
         width={1920}
         height={1080}
         className="w-full h-dvh object-cover z-10 md:hidden"
-        priority
+        loading="lazy"
+        decoding="async"
       />
       <Image
         src={coverMd}

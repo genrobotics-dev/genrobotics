@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import VerticalCarousel from "./VerticalCarousel";
 import HorizontalCarousel from "./HorizontalCarousel";
+import Link from "next/link";
 
 const foundations = [
   { id: "1", src: "/home/foundations/foundation1.webp", alt: "Nagarcoil-city" },
@@ -94,7 +95,7 @@ function Foundation() {
             </p>
 
             {/* Optional Button */}
-            {/* <Link href="#" className="mt-8 px-6 py-3 bg-[#FCD901] text-black font-semibold rounded-xl w-fit mx-auto lg:mx-0">Discover Our Impact</Link> */}
+            <Link href="https://genroboticsfoundation.com/" className="mt-8 px-6 py-3 bg-[#FCD901] text-black font-semibold rounded-xl w-fit mx-auto lg:mx-0" target="_blank">Discover Our Impact</Link>
           </div>
         </div>
       </div>

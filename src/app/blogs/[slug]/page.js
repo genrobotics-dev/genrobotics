@@ -1,9 +1,9 @@
 import { client } from "../../../../prismicio";
 import Image from "next/image";
+import Link from "next/link";
 import { PrismicRichText } from "@prismicio/react";
 import serializers from "@/components/richtext/PrismicSerializers";
 
-// Simple utility to convert plain URLs in text into clickable anchor elements.
 // Simple utility to convert plain URLs in text into clickable anchor elements.
 function linkify(text) {
   if (!text || typeof text !== 'string') return text;
@@ -31,6 +31,29 @@ export const dynamic = "force-static";
 export const revalidate = 60; // Regenerate data every 1 minute
 export const dynamicParams = false;
 
+// Shared keyword extraction helper
+const getKeywordsString = (field) => {
+  if (Array.isArray(field)) {
+    return field.map(k => typeof k.text === "string" ? k.text : "").join(" ");
+  } else if (typeof field === "string") {
+    return field;
+  }
+  return "";
+};
+
+const extractKeywords = (data) => {
+  if (!data) return [];
+  const text = [
+    getKeywordsString(data.primary_keywords),
+    getKeywordsString(data.secondary_keywords),
+    getKeywordsString(data.voice_search_keywords)
+  ].join(" ").toLowerCase();
+
+  // Split by comma and spaces, remove empty and short words
+  return text.split(/[\s,]+/).filter(w => w.length > 1);
+}
+
+
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
   console.log(resolvedParams);
@@ -52,20 +75,9 @@ export async function generateMetadata({ params }) {
     const blogTitle = blog.data?.title?.[0]?.text || 'Untitled';
     const blogSummary = blog.data?.summary || '';
 
-    // Helper to extract keywords from Prismic rich text or string
-    const getKeywords = (field) => {
-      if (Array.isArray(field)) {
-        // Prismic rich text - join all .text blocks
-        return field.map(k => typeof k.text === "string" ? k.text : "").join(" ");
-      } else if (typeof field === "string") {
-        return field;
-      }
-      return "";
-    };
-
-    const primary = getKeywords(primary_keywords);
-    const secondary = getKeywords(secondary_keywords);
-    const voiceSearch = getKeywords(voice_search_keywords);
+    const primary = getKeywordsString(primary_keywords);
+    const secondary = getKeywordsString(secondary_keywords);
+    const voiceSearch = getKeywordsString(voice_search_keywords);
 
     const keywords = [primary, secondary, voiceSearch]
       .filter(Boolean)
@@ -154,7 +166,6 @@ export default async function BlogDetailPage({ params }) {
     .getByUID("blogs", resolvedParams.slug)
     .catch(() => null);
 
-
   if (!blog) {
     return <p className="text-center py-10">Blog not found.</p>;
   }
@@ -170,48 +181,131 @@ export default async function BlogDetailPage({ params }) {
 
   const cleanContent = isValidRichText ? cleanRichText(rawContent) : [];
 
+  // --- Related Blogs Logic ---
+  // Fetch all blogs to filter for related ones. 
+  // In a larger app, you'd use a more specific query or a search service.
+  const allBlogs = await client.getAllByType("blogs");
+  const currentKeywords = extractKeywords(blog.data);
+
+  console.log(`[RelatedBlogs] Current Blog: ${blog.uid}`);
+  console.log(`[RelatedBlogs] Extracted Keywords:`, currentKeywords);
+
+  const relatedBlogs = allBlogs
+    .filter(b => b.uid !== blog.uid) // Exclude current blog
+    .map(b => {
+      const bKeywords = extractKeywords(b.data);
+      // Count matching keywords
+      const matchCount = bKeywords.filter(k => currentKeywords.includes(k)).length;
+
+      if (matchCount > 0) {
+        console.log(`[RelatedBlogs] Match found: ${b.uid} (${matchCount})`);
+      }
+
+      return { ...b, matchCount };
+    })
+    .filter(b => b.matchCount > 0) // Only keep those with at least one match
+    .sort((a, b) => b.matchCount - a.matchCount) // Sort by relevance (most matches first)
+    .slice(0, 3); // Take top 3
+
   return (
-    <article className="max-w-3xl mx-auto px-6 py-12 md:py-16 my-16 md:my-24">
-      {/* Banner image above the title */}
-      {blog?.data?.image?.url && (
-        <figure className="mb-8">
-          <Image
-            src={blog.data.image.url}
-            alt={blog.data.image.alt || 'Blog banner'}
-            width={blog.data.image.dimensions?.width || 1200}
-            height={blog.data.image.dimensions?.height || 600}
-            className="rounded-xl mb-6 w-full object-cover"
+    <>
+      <article className="max-w-3xl mx-auto px-6 py-12 md:py-16 mt-16 md:mt-24 mb-0">
+        {/* Banner image above the title */}
+        {blog?.data?.image?.url && (
+          <figure className="mb-8">
+            <Image
+              src={blog.data.image.url}
+              alt={blog.data.image.alt || 'Blog banner'}
+              width={blog.data.image.dimensions?.width || 1200}
+              height={blog.data.image.dimensions?.height || 600}
+              className="rounded-xl mb-6 w-full object-cover"
+            />
+          </figure>
+        )}
+
+        {/* Title */}
+        <h1 className="text-3xl font-bold mb-6 text-white text-center">
+          {cleanText(blog.data?.title?.[0]?.text) || 'Untitled'}
+        </h1>
+
+        {/* Summary as content block */}
+        {cleanSummary && (
+          <section>
+            <h4 className="text-xl font-semibold mt-8 text-[#FCD901]">Summary</h4>
+            <p className="mb-8 text-gray-300 text-base sm:text-lg md:text-xl leading-relaxed text-justify">
+              {/* If summary includes HTML tags (unlikely), render as HTML; otherwise linkify plain URLs */}
+              {/<[a-z][\s\S]*>/i.test(cleanSummary)
+                ? (
+                  <span dangerouslySetInnerHTML={{ __html: cleanSummary }} />
+                )
+                : (
+                  linkify(cleanSummary)
+                )}
+            </p>
+          </section>
+        )}
+        {/* Main blog content */}
+        {cleanContent.length > 0 && (
+          <PrismicRichText
+            field={cleanContent}
+            components={serializers}
           />
-        </figure>
-      )}
+        )}
+      </article>
 
-      {/* Title */}
-      <h1 className="text-3xl font-bold mb-6 text-white text-center">
-        {cleanText(blog.data?.title?.[0]?.text) || 'Untitled'}
-      </h1>
+      {/* Related Blogs Section */}
+      {relatedBlogs.length > 0 && (
+        <section className="max-w-6xl mx-auto px-6 py-16 border-t border-gray-800 mt-16">
+          <h3 className="text-2xl font-bold text-white mb-8">Related Blogs</h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {relatedBlogs.map((item, i) => {
+              const title = cleanText(item.data.title[0]?.text || "Untitled");
+              const summary = cleanText(item.data.summary || "");
+              const image = item.data.image?.url;
 
-      {/* Summary as content block */}
-      {cleanSummary && (
-        <section>
-          <h4 className="text-xl font-semibold mt-8 text-[#FCD901]">Summary</h4>
-          <p className="mb-8 text-gray-300 text-base sm:text-lg md:text-xl leading-relaxed text-justify">
-            {/* If summary includes HTML tags (unlikely), render as HTML; otherwise linkify plain URLs */}
-            {/<[a-z][\s\S]*>/i.test(cleanSummary)
-              ? (
-                <span dangerouslySetInnerHTML={{ __html: cleanSummary }} />
-              )
-              : (
-                linkify(cleanSummary)
-              )}
-          </p>
+              return (
+                <div
+                  key={item.uid}
+                  className="flex flex-col justify-between rounded-xl p-6 bg-gradient-to-br from-[#1A1A1A] to-[#000000] border border-[#FCD901]/30 transition duration-300 hover:shadow-lg hover:shadow-[#FCD901]/40 h-full"
+                >
+                  <div className="flex flex-col gap-1">
+                    {image && (
+                      <Link
+                        href={`/blogs/${item.uid}`}
+                        className="block mb-4"
+                      >
+                        <Image
+                          src={image}
+                          alt={title}
+                          width={400}
+                          height={250}
+                          className="w-full h-40 object-cover rounded-xl"
+                        />
+                      </Link>
+                    )}
+                    <h4 className="font-semibold text-lg text-white leading-tight mb-2">
+                      <Link href={`/blogs/${item.uid}`} className="hover:text-[#FCD901] transition-colors">
+                        {title}
+                      </Link>
+                    </h4>
+                    <p className="text-gray-400 text-sm mb-4 line-clamp-3">
+                      {summary.slice(0, 100)}...
+                    </p>
+                  </div>
+                  <div className="mt-auto">
+                    <Link
+                      href={`/blogs/${item.uid}`}
+                      className="inline-block text-sm font-medium text-black bg-[#FCD901] px-4 py-2 rounded-md hover:bg-[#FFE63D] transition"
+                    >
+                      Read More
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </section>
       )}
-      {cleanContent.length > 0 && (
-        <PrismicRichText
-          field={cleanContent}
-          components={serializers}
-        />
-      )}
-    </article>
+    </>
   );
 }
