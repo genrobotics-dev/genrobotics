@@ -49,7 +49,9 @@ export async function generateMetadata() {
     }
 }
 
-export default function Page({ searchParams }) {
+import { Suspense } from "react";
+
+export default function Page() {
     return (
         <main className="relative">
             {/* Fixed hero */}
@@ -57,7 +59,9 @@ export default function Page({ searchParams }) {
 
             {/* Content below */}
             <div className="relative z-0 pt-[100vh]">
-                <CaseStudy searchParams={searchParams} />
+                <Suspense fallback={<div className="text-white text-center py-20">Loading case studies...</div>}>
+                    <CaseStudy />
+                </Suspense>
             </div>
         </main>
     );
