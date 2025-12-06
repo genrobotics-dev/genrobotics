@@ -7,9 +7,7 @@ const nextConfig = {
   images: {
     unoptimized: true, // required when using <Image /> with static export
   },
-  eslint: {
-    ignoreDuringBuilds: true, // prevents build from failing due to ESLint
-  },
+
   //   headers: async () => [
   //   {
   //     source: '/(.*)',
