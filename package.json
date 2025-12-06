@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@prismicio/client": "^7.20.1",
-    "@prismicio/next": "^2.0.1",
+    "@prismicio/next": "^2.0.2",
     "@prismicio/react": "^3.2.2",
     "framer-motion": "^12.23.19",
     "next": "^16.0.7",
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@slicemachine/adapter-next": "^0.3.84",
+    "@slicemachine/adapter-next": "^0.3.88",
     "@tailwindcss/postcss": "^4.1.13",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
