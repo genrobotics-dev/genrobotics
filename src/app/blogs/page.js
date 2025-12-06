@@ -50,7 +50,9 @@ export async function generateMetadata() {
     }
 }
 
-const Page = ({ searchParams }) => {
+import { Suspense } from "react";
+
+const Page = async () => {
     return (
         <main className="relative">
             {/* Fixed hero intro */}
@@ -58,7 +60,9 @@ const Page = ({ searchParams }) => {
 
             {/* Content below hero (overlaps it on scroll) */}
             <div className="relative z-0 pt-[100vh]">
-                <Blogs searchParams={searchParams} />
+                <Suspense fallback={<div className="text-white text-center py-20">Loading articles...</div>}>
+                    <Blogs />
+                </Suspense>
             </div>
         </main>
     );

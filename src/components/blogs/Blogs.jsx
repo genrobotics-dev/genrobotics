@@ -1,7 +1,10 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { client } from "../../../prismicio";
 import * as prismic from "@prismicio/client";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 // Default items per page
 const ITEMS_PER_PAGE = 6;
@@ -12,29 +15,53 @@ const cleanText = (text) => {
     return text.replace(/\u00A0/g, ' ');
 };
 
-export default async function BlogsPage({ searchParams }) {
-    const currentPage = parseInt(searchParams?.page || "1");
+export default function BlogsPage() {
+    const searchParams = useSearchParams();
+    const currentPage = parseInt(searchParams.get("page") || "1");
 
-    // Fetch blogs with pagination from Prismic
-    const response = await client.get({
-        predicates: [prismic.predicate.at("document.type", "blogs")],
-        orderings: [{ field: "document.last_publication_date", direction: "desc" }],
-        pageSize: ITEMS_PER_PAGE,
-        page: currentPage,
-    });
+    const [blogs, setBlogs] = useState([]);
+    const [totalPages, setTotalPages] = useState(1);
+    const [loading, setLoading] = useState(true);
 
-    const blogs = response.results.map((b) => ({
-        id: b.id,
-        uid: b.uid,
-        title: cleanText(b.data.title[0]?.text || "Untitled"),
-        summary: cleanText(b.data.summary || ""),
-        image: b.data.image?.url,
-        last_publication_date: b.last_publication_date,
-    }));
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await client.get({
+                    predicates: [prismic.predicate.at("document.type", "blogs")],
+                    orderings: [{ field: "document.last_publication_date", direction: "desc" }],
+                    pageSize: ITEMS_PER_PAGE,
+                    page: currentPage,
+                });
 
-    const totalPages = response.total_pages;
+                const fetchedBlogs = response.results.map((b) => ({
+                    id: b.id,
+                    uid: b.uid,
+                    title: cleanText(b.data.title[0]?.text || "Untitled"),
+                    summary: cleanText(b.data.summary || ""),
+                    image: b.data.image?.url,
+                    last_publication_date: b.last_publication_date,
+                }));
 
-    const blogsData = await client.getAllByType("blogs");
+                setBlogs(fetchedBlogs);
+                setTotalPages(response.total_pages);
+            } catch (error) {
+                console.error("Failed to fetch blogs:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [currentPage]);
+
+    if (loading) {
+        return (
+            <section className="relative z-20 max-w-6xl mx-auto px-6 py-16 text-center">
+                <p className="text-white">Loading...</p>
+            </section>
+        );
+    }
 
     return (
         <section className="relative z-20 max-w-6xl mx-auto px-6 py-16 pointer-events-none">

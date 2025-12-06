@@ -86,7 +86,7 @@ const Journey = () => {
 
   return (
     <div ref={outerRef} className="relative h-[500vh] bg-black">
-      <section className="sticky top-0 h-screen overflow-hidden text-white flex flex-col justify-around">
+      <section className="sticky top-0 h-dvh overflow-hidden text-white flex flex-col justify-around">
         {/* ✅ Heading */}
         <div className="w-full flex justify-center mt-12 md:mt-16 lg:mt-24 z-20">
           <h2 className="text-white tracking-wide text-center font-anton">

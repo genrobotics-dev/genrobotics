@@ -6,14 +6,15 @@ import coverLg from "../../../public/home/cover-lg.webp";
 
 const Intro = () => {
   return (
-    <section className="relative w-full">
+    <section className="relative w-full min-h-screen lg:min-h-[100dvh]">
       <Image
         src={coverMobile}
         alt="Intro background"
         width={1920}
         height={1080}
-        className="w-full h-screen object-cover z-10 md:hidden"
-        priority
+        className="w-full h-dvh object-cover z-10 md:hidden"
+        loading="lazy"
+        decoding="async"
       />
       <Image
         src={coverMd}
@@ -21,7 +22,8 @@ const Intro = () => {
         width={1920}
         height={1080}
         className="w-full h-auto object-cover z-10 hidden md:block lg:hidden"
-        priority
+        loading="lazy"
+        decoding="async"
       />
       <Image
         src={coverLg}
@@ -29,11 +31,12 @@ const Intro = () => {
         width={1920}
         height={1080}
         className="w-full h-auto object-cover z-10 hidden lg:block"
-        priority
+        loading="lazy"
+        decoding="async"
       />
 
       {/* Overlay Content */}
-      <div className="absolute inset-0 flex flex-col items-center px-4 text-center mx-auto space-y-4 mt-24 md:mt-36 lg:mt-40 xl:mt-48 2xl:mt-64 max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl lg:space-y-8 min-h-screen">
+      <div className="absolute inset-0 flex flex-col items-center px-4 text-center mx-auto space-y-4 mt-24 md:mt-36 lg:mt-40 xl:mt-48 2xl:mt-64 max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl lg:space-y-8 min-h-dvh">
         <h1 className="font-anton text-white ">
           An Extension of{" "}
           <span className="text-[#FCD901]">Human Potential</span>

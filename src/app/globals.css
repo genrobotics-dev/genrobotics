@@ -414,21 +414,12 @@ h6 {
    - When backdrop-filter is supported, apply a blur and slightly lighten the overlay color.
    - Add the class `has-backdrop` to elements (e.g. overlays) that should get this behavior.
 */
+/* IOS CRASH FIX: Removed backdrop-filter entirely */
 .has-backdrop {
-  /* baseline fallback for non-supporting browsers */
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
-@supports ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
-  .has-backdrop {
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    /* make overlay a bit lighter when blur is applied so content remains readable */
-    background-color: rgba(0, 0, 0, 0.35);
-  }
-}
-
-/* Guidance: backdrop-filter should not be necessary for clarity. Keep it decorative only. */
+/* @supports removed to prevent iPhone GPU memory crash */
 
 /* Scoped overrides for the CraftingRobotics hero headings
    These sizes take precedence over the global h1/h2 clamps for this component only.

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone", // static build
+  output: "export", // static build
   reactStrictMode: true,
   productionBrowserSourceMaps: false,
   trailingSlash: true, // 👈 required for AWS S3/CloudFront hosting
@@ -10,17 +10,17 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true, // prevents build from failing due to ESLint
   },
-//   headers: async () => [
-//   {
-//     source: '/(.*)',
-//     headers: [
-//       {
-//         key: 'Content-Security-Policy',
-//         value: "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;",
-//       },
-//     ],
-//   },
-// ]
+  //   headers: async () => [
+  //   {
+  //     source: '/(.*)',
+  //     headers: [
+  //       {
+  //         key: 'Content-Security-Policy',
+  //         value: "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;",
+  //       },
+  //     ],
+  //   },
+  // ]
 };
 
 // // Content Security Policy - adjust sources as needed for third-party services

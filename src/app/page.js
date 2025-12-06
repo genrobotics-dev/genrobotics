@@ -1,6 +1,5 @@
 // import Awards from "@/components/home/Awards";
 import Script from "next/script";
-import Clients from "@/components/home/Clients";
 import Intro from "@/components/home/Intro";
 import Mission from "@/components/home/Mission";
 import Principles from "@/components/home/Principles";
@@ -8,6 +7,7 @@ import Testmonials from "@/components/home/Testmonials";
 import Verticals from "@/components/home/Verticals";
 import Foundation from "@/components/home/Foundation";
 import Awards from "@/components/home/Awards";
+import Clients from "@/components/home/Clients";
 import { client } from "../../prismicio";
 
 

@@ -1,8 +1,10 @@
-// app/case-studies/page.jsx
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { client } from "../../../prismicio";
 import * as prismic from "@prismicio/client";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -12,26 +14,52 @@ const cleanText = (text) => {
     return text.replace(/\u00A0/g, ' ');
 };
 
-export default async function CaseStudiesPage({ searchParams }) {
-    const currentPage = parseInt(searchParams?.page || "1");
+export default function CaseStudiesPage() {
+    const searchParams = useSearchParams();
+    const currentPage = parseInt(searchParams.get("page") || "1");
 
-    // Fetch case studies from Prismic with pagination
-    const response = await client.get({
-        predicates: [prismic.predicate.at("document.type", "case_studies")],
-        orderings: [{ field: "document.last_publication_date", direction: "desc" }],
-        pageSize: ITEMS_PER_PAGE,
-        page: currentPage,
-    });
+    const [caseStudies, setCaseStudies] = useState([]);
+    const [totalPages, setTotalPages] = useState(1);
+    const [loading, setLoading] = useState(true);
 
-    const caseStudies = response.results.map((c) => ({
-        id: c.id,
-        uid: c.uid,
-        title: cleanText(c.data.title[0]?.text || "Untitled"),
-        summary: cleanText(c.data.summary || ""),
-        image: c.data.image?.url,
-    }));
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await client.get({
+                    predicates: [prismic.predicate.at("document.type", "case_studies")],
+                    orderings: [{ field: "document.last_publication_date", direction: "desc" }],
+                    pageSize: ITEMS_PER_PAGE,
+                    page: currentPage,
+                });
 
-    const totalPages = response.total_pages;
+                const fetchedStudies = response.results.map((c) => ({
+                    id: c.id,
+                    uid: c.uid,
+                    title: cleanText(c.data.title[0]?.text || "Untitled"),
+                    summary: cleanText(c.data.summary || ""),
+                    image: c.data.image?.url,
+                }));
+
+                setCaseStudies(fetchedStudies);
+                setTotalPages(response.total_pages);
+            } catch (error) {
+                console.error("Failed to fetch case studies:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [currentPage]);
+
+    if (loading) {
+        return (
+            <section className="relative z-20 max-w-6xl mx-auto px-6 py-16 text-center">
+                <p className="text-white">Loading...</p>
+            </section>
+        );
+    }
 
     return (
         <section className="relative z-20 max-w-6xl mx-auto px-6 py-16 pointer-events-none">

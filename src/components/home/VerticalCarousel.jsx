@@ -69,13 +69,13 @@ const VerticalCarousel = ({ items = [], debug = false, fixedHeight, aspectRatio 
         }
       }
 
-  // final fallback to a sensible default (60% of viewport or 500px)
+      // final fallback to a sensible default (60% of viewport or 500px)
       if (!h || h < 50) h = Math.min(Math.round(window.innerHeight * 0.6), 600) || 500;
 
       // final safeguard
       if (!h || h < 1) h = 200;
-  // only set measured height when fixedHeight not provided
-  if (!fixedHeight) setHeight(h);
+      // Prevention of infinite loops: only update if diff is > 1px
+      setHeight(prev => Math.abs(prev - h) > 1 ? h : prev);
 
       if (debug && typeof console !== "undefined") {
         console.log("VerticalCarousel.measure -> rect:", rect, "offsetHeight:", el.offsetHeight, "computedStyle:", window.getComputedStyle(el).height, "parentOffset:", el.parentElement?.offsetHeight, "finalHeight:", h);
@@ -92,7 +92,7 @@ const VerticalCarousel = ({ items = [], debug = false, fixedHeight, aspectRatio 
     measure();
 
     return () => resizeObserver.disconnect();
-  // Re-run measurement when fixedHeight or aspectRatio changes
+    // Re-run measurement when fixedHeight or aspectRatio changes
   }, [fixedHeight, aspectRatio]);
 
   const settings = {
@@ -182,9 +182,8 @@ const VerticalCarousel = ({ items = [], debug = false, fixedHeight, aspectRatio 
   return (
     <div
       ref={containerRef}
-      className={`vertical-carousel relative w-full rounded-2xl overflow-hidden ${
-        debug ? "debug-vertical-carousel" : ""
-      }`}
+      className={`vertical-carousel relative w-full rounded-2xl overflow-hidden ${debug ? "debug-vertical-carousel" : ""
+        }`}
       style={{
         height,
         minHeight: Math.max(200, Math.round(height * 0.6)),
@@ -192,7 +191,7 @@ const VerticalCarousel = ({ items = [], debug = false, fixedHeight, aspectRatio 
         "--vr-gap": `16px`,
       }}
     >
-  {/* Use opacity + spacing between slides instead of overlays */}
+      {/* Use opacity + spacing between slides instead of overlays */}
 
       <Slider {...settings}>
         {items.map((item, idx) => (
@@ -262,7 +261,7 @@ const VerticalCarousel = ({ items = [], debug = false, fixedHeight, aspectRatio 
           margin-top: calc(var(--vr-gap) / 2) !important;
           margin-bottom: calc(var(--vr-gap) / 2) !important;
         }
-        ${debug ? 
+        ${debug ?
           `:global(.debug-vertical-carousel) { outline: 2px dashed lime; }
            :global(.debug-vertical-carousel .slick-slide) { outline: 1px dashed cyan; }
            :global(.debug-vertical-carousel .slick-slide > div) { background: rgba(255,255,0,0.03); }
